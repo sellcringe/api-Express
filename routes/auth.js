@@ -77,6 +77,6 @@ router.post('/register', controller.register)
  *
  */
 
-router.get('users', controller.getAll)
+router.get('/users', controller.getAll)
 
 module.exports = router

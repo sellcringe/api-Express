@@ -55,7 +55,7 @@ async function register(req, res){
 
 async function getAll(req, res){
     const users = await db.User.findAll()
-    return users
+    res.status(200).json(users)
 }
 module.exports = {
     login,

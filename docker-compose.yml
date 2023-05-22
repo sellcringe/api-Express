@@ -1,28 +1,26 @@
 version: '3'
 services:
+  app:
 
-  db:
-    image: postgres:15
-    volumes:
-      - pg_data:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_PASSWORD=QCb3OXlaXyrRhzNygiMhOauWS5kT7d96
-      - POSTGRES_USER=apihhru_user
-      - POSTGRES_DB=apihhru
-
-  pgbouncer:
-    image: edoburu/pgbouncer
-    environment:
-      - DB_USER=apihhru_user
-      - DB_PASSWORD=QCb3OXlaXyrRhzNygiMhOauWS5kT7d96
-      - DB_HOST=chlmre64dadfmsgj44mg
-      - DB_NAME=apihhru
-      - POOL_MODE=transaction
-
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
     ports:
-      - "5432:5432"
+      - '7000:7000'
+    env_file:
+      - .env
     depends_on:
-      - db
-
-volumes:
-  pg_data:
+      - postgres
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/uploaddc
+    command: npm run start
+  postgres:
+    image: postgres
+    env_file:
+      - .env
+    ports:
+      - '5432:5432'
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
